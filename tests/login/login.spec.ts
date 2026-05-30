@@ -176,7 +176,7 @@ test("TC-LOGIN-07: Empty username + password", { tag: ['@login', '@regression', 
 
 });
 
-test("TC-LOGIN-08: Authenticated user can logout successfully", { tag: ['@login', '@security', '@critical'] }, async ({ browser }) => {
+test("TC-LOGIN-08: Authenticated user can logout successfully", { tag: ['@regression', '@login', '@security', '@critical'] }, async ({ browser }) => {
 
     const context = await browser.newContext({storageState: undefined});
     const page = await context.newPage();
