@@ -3,13 +3,16 @@ import { LoginPage } from '../../src/pages/login/login.page';
 import { DashboardPage } from '../../src/pages/dashboard/dashboard.page';
 
 
-test('TC-LOGIN-01: Valid user can login successfully', { tag: ['@smoke', '@login', '@regression', '@critical'] }, async ({ page }) => {
+test('TC-LOGIN-01: Valid user can login successfully', { tag: ['@smoke', '@login', '@regression', '@critical'] }, async ({ browser }) => {
 
+    const context = await browser.newContext({storageState: undefined});
+    const page = await context.newPage();
+    
     const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+        await page.goto('/');
     });
 
     await test.step('Login with valid credentials', async () => {
@@ -30,12 +33,15 @@ test('TC-LOGIN-01: Valid user can login successfully', { tag: ['@smoke', '@login
 
 });
 
-test("TC-LOGIN-02: Invalid username", { tag: ['@login', '@regression', '@negative', '@security'] }, async ({ page }) => {
+test("TC-LOGIN-02: Invalid username", { tag: ['@login', '@regression', '@negative', '@security'] }, async ({ browser }) => {
+
+    const context = await browser.newContext({storageState: undefined});
+    const page = await context.newPage();
 
     const loginPage = new LoginPage(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+        await page.goto('/');
     });
     await test.step('Login with invalid username', async () => {
         await loginPage.login(
@@ -49,12 +55,15 @@ test("TC-LOGIN-02: Invalid username", { tag: ['@login', '@regression', '@negativ
 
 });
 
-test("TC-LOGIN-03: Invalid password", { tag: ['@login', '@regression', '@negative', '@security'] }, async ({ page }) => {
+test("TC-LOGIN-03: Invalid password", { tag: ['@login', '@regression', '@negative', '@security'] }, async ({ browser }) => {
+
+    const context = await browser.newContext({storageState: undefined});
+    const page = await context.newPage();
 
     const loginPage = new LoginPage(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+        await page.goto('/');
     });
     await test.step('Login with invalid username', async () => {
         await loginPage.login(
@@ -68,11 +77,15 @@ test("TC-LOGIN-03: Invalid password", { tag: ['@login', '@regression', '@negativ
 
 });
 
-test("TC-LOGIN-04: Invalid username + password", { tag: ['@login', '@regression', '@negative', '@security'] }, async ({ page }) => {
+test("TC-LOGIN-04: Invalid username + password", { tag: ['@login', '@regression', '@negative', '@security'] }, async ({ browser }) => {
+    
+    const context = await browser.newContext({storageState: undefined});
+    const page = await context.newPage();
+    
     const loginPage = new LoginPage(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+        await page.goto('/');
     });
     await test.step('Login with invalid username', async () => {
         await loginPage.login(
@@ -86,11 +99,15 @@ test("TC-LOGIN-04: Invalid username + password", { tag: ['@login', '@regression'
 
 });
 
-test("TC-LOGIN-05: Empty username", { tag: ['@login', '@regression', '@validation'] }, async ({ page }) => {
+test("TC-LOGIN-05: Empty username", { tag: ['@login', '@regression', '@validation'] }, async ({ browser }) => {
+    
+    const context = await browser.newContext({storageState: undefined});
+    const page = await context.newPage();
+    
     const loginPage = new LoginPage(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+        await page.goto('/');
     });
 
     await test.step('Login with empty username', async () => {
@@ -107,11 +124,15 @@ test("TC-LOGIN-05: Empty username", { tag: ['@login', '@regression', '@validatio
     });
 });
 
-test("TC-LOGIN-06: Empty password", { tag: ['@login', '@regression', '@validation'] }, async ({ page }) => {
+test("TC-LOGIN-06: Empty password", { tag: ['@login', '@regression', '@validation'] }, async ({ browser }) => {
+    
+    const context = await browser.newContext({storageState: undefined});
+    const page = await context.newPage();
+    
     const loginPage = new LoginPage(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+        await page.goto('/');
     });
 
     await test.step('Login with empty username', async () => {
@@ -129,12 +150,15 @@ test("TC-LOGIN-06: Empty password", { tag: ['@login', '@regression', '@validatio
 
 });
 
-test("TC-LOGIN-07: Empty username + password", { tag: ['@login', '@regression', '@validation'] }, async ({ page }) => {
+test("TC-LOGIN-07: Empty username + password", { tag: ['@login', '@regression', '@validation'] }, async ({ browser }) => {
+
+    const context = await browser.newContext({storageState: undefined});
+    const page = await context.newPage();
 
     const loginPage = new LoginPage(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+        await page.goto('/');
     });
 
     await test.step('Login with empty username', async () => {
@@ -152,13 +176,16 @@ test("TC-LOGIN-07: Empty username + password", { tag: ['@login', '@regression', 
 
 });
 
-test("TC-LOGIN-08: Authenticated user can logout successfully", { tag: ['@login', '@security', '@critical'] }, async ({ page }) => {
+test("TC-LOGIN-08: Authenticated user can logout successfully", { tag: ['@login', '@security', '@critical'] }, async ({ browser }) => {
 
+    const context = await browser.newContext({storageState: undefined});
+    const page = await context.newPage();
+    
     const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+        await page.goto('/');
     });
 
     await test.step('Login with valid credentials', async () => {

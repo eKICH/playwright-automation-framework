@@ -1,5 +1,4 @@
 import test from "@playwright/test";
-import { LoginPage } from "../../src/pages/login/login.page";
 import { DashboardPage } from "../../src/pages/dashboard/dashboard.page";
 import { BillPay } from "../../src/pages/bill-pay/bill-pay.page";
 
@@ -10,22 +9,13 @@ const payees = readJSON<PayeeDetails[]>('tests/bill-payment/data/payee-details.j
 
 test('TC-BILL-PAY-01: Authenticated user can access bill payment page', { tag: ['@smoke', '@regression', '@billpay', '@critical'] }, async ({ page }) => {
 
-    const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
     const billPay = new BillPay(page);
 
-    await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
+    await test.step('Navigate to the app', async () => {
+        await page.goto('/');
     });
-    await test.step('Login with valid credentials', async () => {
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!
-        );
-    });
-    await test.step('Verify redirected to dashboard', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
-    });
+    
     await test.step('Click bill pay link', async () => {
         await dashboardPage.navigateToPayBill();
     });
@@ -40,21 +30,11 @@ test('TC-BILL-PAY-01: Authenticated user can access bill payment page', { tag: [
 
 test('TC-BILL-PAY-02: Authenticated user can make a single bill payment', { tag: ['@smoke', '@regression', '@billpay', '@critical'] }, async ({ page }) => {
 
-    const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
     const billPay = new BillPay(page);
 
-    await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
-    });
-    await test.step('Login with valid credentials', async () => {
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!
-        );
-    });
-    await test.step('Verify redirected to dashboard', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
+    await test.step('Navigate to the app', async () => {
+        await page.goto('/');
     });
     await test.step('Navigate to Bill Pay page', async () => {
         await dashboardPage.navigateToPayBill();
@@ -89,21 +69,11 @@ test('TC-BILL-PAY-02: Authenticated user can make a single bill payment', { tag:
 
 test('TC-BILL-PAY-03: Authenticated user can make multiple bill payments', { tag: ['@regression', '@billpay'] }, async ({ page }) => {
 
-    const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
     const billPay = new BillPay(page);
 
-    await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
-    });
-    await test.step('Login with valid credentials', async () => {
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!
-        );
-    });
-    await test.step('Verify redirected to dashboard', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
+    await test.step('Navigate to the app', async () => {
+        await page.goto('/');
     });
 
     for (const payee of payees) {
@@ -140,21 +110,11 @@ test('TC-BILL-PAY-03: Authenticated user can make multiple bill payments', { tag
 
 test('TC-BILL-PAY-04: Bill payment fails with mismatched account numbers', { tag: ['@regression', '@billpay', '@negative'] }, async ({ page }) => {
 
-    const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
     const billPay = new BillPay(page);
 
-    await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
-    });
-    await test.step('Login with valid credentials', async () => {
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!
-        );
-    });
-    await test.step('Verify redirected to dashboard', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
+    await test.step('Navigate to the app', async () => {
+        await page.goto('/');
     });
     await test.step('Navigate to Bill Pay page', async () => {
         await dashboardPage.navigateToPayBill();
@@ -190,21 +150,11 @@ test('TC-BILL-PAY-04: Bill payment fails with mismatched account numbers', { tag
 
 test('TC-BILL-PAY-05: Bill payment fails with missing required fields', { tag: ['@regression', '@billpay', '@negative'] }, async ({ page }) => {
 
-    const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
     const billPay = new BillPay(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
-    });
-    await test.step('Login with valid credentials', async () => {
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!
-        );
-    });
-    await test.step('Verify redirected to dashboard', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
+        await page.goto('/');
     });
     await test.step('Navigate to Bill Pay page', async () => {
         await dashboardPage.navigateToPayBill();
@@ -240,21 +190,11 @@ test('TC-BILL-PAY-05: Bill payment fails with missing required fields', { tag: [
 
 test('TC-BILL-PAY-06: Bill payment fails with invalid amount', { tag: ['@regression', '@billpay', '@negative'] }, async ({ page }) => {
 
-    const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
     const billPay = new BillPay(page);
 
     await test.step('Navigate to login page', async () => {
-        await loginPage.navigate();
-    });
-    await test.step('Login with valid credentials', async () => {
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!
-        );
-    });
-    await test.step('Verify redirected to dashboard', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
+        await page.goto('/');
     });
     await test.step('Navigate to Bill Pay page', async () => {
         await dashboardPage.navigateToPayBill();
