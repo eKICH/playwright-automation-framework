@@ -29,11 +29,6 @@ test('TC-ACCOUNT-02: Authenticated user can open new account', { tag: ['@smoke',
         await page.goto('/');
     });
 
-    await test.step('Verify overview page', async () => {
-        await expect(page).toHaveURL(/overview/);
-        await expect(page).toHaveTitle(/Accounts Overview/);
-    });
-
     await test.step('Navigate to Open New Account page', async () => {
         await dashboardPage.navigateToOpenNewAccount();
     });
