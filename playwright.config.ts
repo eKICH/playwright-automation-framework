@@ -41,7 +41,7 @@ export default defineConfig({
     storageState: 'src/fixtures/session.json',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    headless: false,
+    headless: !!process.env.CI,
     trace: 'on',
     screenshot: 'on',
     video: 'retain-on-failure'
@@ -81,7 +81,7 @@ export default defineConfig({
     // },
     {
       name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+      use: { ...devices['Desktop Chrome'], channel: 'chrome'},
     },
   ],
 
