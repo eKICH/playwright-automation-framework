@@ -65,6 +65,7 @@ jobs:
           FAILED=0
           BROKEN=0
           MESSAGE=""
+          WHATSAPP_MESSAGE=""
 
           for file in allure-results/*-result.json; do
             if [ -f "$file" ]; then
@@ -79,18 +80,20 @@ jobs:
               esac
 
               MESSAGE="$MESSAGE<br>$EMOJI $NAME"
-              WHATSAPP_MESSAGE="$WHATSAPP_MESSAGE$EMOJI $NAME%0A" 
+              WHATSAPP_MESSAGE="$WHATSAPP_MESSAGE$EMOJI $NAME%0A"
             fi
           done
 
           TOTAL=$((PASSED + FAILED + BROKEN))
-          SUMMARY="Total: $TOTAL | ✅ $PASSED | ❌ $FAILED | ⚠️ $BROKEN"
 
+          # HTML summary for email
           echo "passed=$PASSED" >> $GITHUB_OUTPUT
           echo "failed=$FAILED" >> $GITHUB_OUTPUT
-          echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
           echo "message=$MESSAGE" >> $GITHUB_OUTPUT
           echo "whatsapp_message=$WHATSAPP_MESSAGE" >> $GITHUB_OUTPUT
+
+          # Plain text URL-safe summary for WhatsApp - no pipes, emojis or special chars
+          echo "whatsapp_summary=Total:+$TOTAL+Passed:+$PASSED+Failed:+$FAILED" >> $GITHUB_OUTPUT
 
       - name: Send email notification
         if: always()
@@ -125,4 +128,4 @@ jobs:
       - name: Send WhatsApp notification
         if: always()
         run: |
-          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=🎭+Parabank+Playwright+Results%0ABranch:+${{ github.ref_name }}%0AStatus:+${{ job.status }}%0A${{ steps.results.outputs.summary }}%0ASee+email+for+full+details.%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
+          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=Parabank+Playwright+Results%0ABranch:+${{ github.ref_name }}%0AStatus:+${{ job.status }}%0A${{ steps.results.outputs.whatsapp_summary }}%0ASee+email+for+full+details.%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
