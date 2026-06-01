@@ -78,17 +78,19 @@ jobs:
                 *)       EMOJI="⏭️";;
               esac
 
-              MESSAGE="$MESSAGE$EMOJI $NAME%0A"
+              MESSAGE="$MESSAGE<br>$EMOJI $NAME"
+              WHATSAPP_MESSAGE="$WHATSAPP_MESSAGE$EMOJI $NAME%0A" 
             fi
           done
 
           TOTAL=$((PASSED + FAILED + BROKEN))
-          SUMMARY="Total:+$TOTAL+|+✅+$PASSED+|+❌+$FAILED+|+⚠️+$BROKEN"
+          SUMMARY="Total: $TOTAL | ✅ $PASSED | ❌ $FAILED | ⚠️ $BROKEN"
 
           echo "passed=$PASSED" >> $GITHUB_OUTPUT
           echo "failed=$FAILED" >> $GITHUB_OUTPUT
           echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
           echo "message=$MESSAGE" >> $GITHUB_OUTPUT
+          echo "whatsapp_message=$WHATSAPP_MESSAGE" >> $GITHUB_OUTPUT
 
       - name: Send email notification
         if: always()
