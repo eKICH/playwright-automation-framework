@@ -38,8 +38,8 @@ jobs:
           PASSWORD_VALID: ${{ secrets.PASSWORD_VALID }}
           USERNAME_INVALID: ${{ secrets.USERNAME_INVALID }}
           PASSWORD_INVALID: ${{ secrets.PASSWORD_INVALID }}
-          USERNAME_EMPTY: ${{ secrets.USERNAME_EMPTY }}
-          PASSWORD_EMPTY: ${{ secrets.PASSWORD_EMPTY }}
+          USERNAME_EMPTY: ''
+          PASSWORD_EMPTY: ''
         run: npm run test:regression
 
       - name: Generate Allure report
