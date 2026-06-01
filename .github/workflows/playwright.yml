@@ -99,29 +99,28 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "[${{ job.status }}] Parabank PlayWright Automation Framework Tests - ${{ github.ref_name }}"
-          body: |
-            Hi Engineering,
-
-            Here are the results for the latest Parabank PlayWright Automation Framework Test run:
-
-            Branch:     ${{ github.ref_name }}
-            Status:     ${{ job.status }}
-            Triggered:  ${{ github.event_name }}
-            Summary:    ${{ steps.results.outputs.passed }} passed | ${{ steps.results.outputs.failed }} failed
-
-            Test Results:
-            ${{ steps.results.outputs.message }}
-
-            Run URL:    ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-            Download the Allure report from the Run URL above under Artifacts.
-
-            Regards,
-            Chris - TAE
+          html_body: |
+            <p>Hi Engineering,</p>
+            <p>Here are the results for the latest Parabank PlayWright Automation Framework Test run:</p>
+            <table>
+              <tr><td><b>Branch</b></td><td>${{ github.ref_name }}</td></tr>
+              <tr><td><b>Status</b></td><td>${{ job.status }}</td></tr>
+              <tr><td><b>Triggered</b></td><td>${{ github.event_name }}</td></tr>
+              <tr><td><b>Passed</b></td><td>${{ steps.results.outputs.passed }}</td></tr>
+              <tr><td><b>Failed</b></td><td>${{ steps.results.outputs.failed }}</td></tr>
+            </table>
+            <br>
+            <b>Test Results:</b>
+            <pre>${{ steps.results.outputs.message }}</pre>
+            <br>
+            <p><b>Run URL:</b> <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Run</a></p>
+            <p>Download the Allure report from the Run URL above under Artifacts.</p>
+            <br>
+            <p>Regards,<br>Chris - TAE</p>
           to: ${{ secrets.EMAIL_RECIPIENT }}
           from: ${{ secrets.EMAIL_USERNAME }}
 
       - name: Send WhatsApp notification
         if: always()
         run: |
-          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=🎭+Parabank+Playwright+Results+-+${{ github.ref_name }}%0A${{ steps.results.outputs.summary }}%0A%0A${{ steps.results.outputs.message }}%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
+          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=🎭+Parabank+Playwright+Results%0ABranch:+${{ github.ref_name }}%0AStatus:+${{ job.status }}%0A${{ steps.results.outputs.summary }}%0ASee+email+for+full+details.%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
