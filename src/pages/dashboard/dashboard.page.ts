@@ -17,8 +17,8 @@ export class DashboardPage {
         this.page = page;
 
         this.openNewAccountLink = page.getByRole('link', { name: 'Open New Account' });
-        this.transferFundsLink = page.getByRole('link', { name: 'Transfer Funds' });
-        this.billPayLink = page.getByRole('link', { name: 'Bill Pay' });
+        this.transferFundsLink = page.locator('#leftPanel').getByRole('link', { name: 'Transfer Funds' });
+        this.billPayLink = page.locator('#leftPanel').getByRole('link', { name: 'Bill Pay' });
         this.findTransactionLink = page.getByRole('link', { name: 'Find Transactions' });
         this.updateContactInfoLink = page.getByRole('link', { name: 'Update Contact Info' });
         this.requestLoanLink = page.getByRole('link', { name: 'Request Loan' });

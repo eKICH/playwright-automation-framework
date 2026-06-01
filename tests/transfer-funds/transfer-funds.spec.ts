@@ -1,107 +1,37 @@
-import test, { expect } from "@playwright/test";
-import { LoginPage } from "../../src/pages/login/login.page";
-import { DashboardPage } from "../../src/pages/dashboard/dashboard.page";
-import { TransferFunds } from "../../src/pages/transfer-funds/transfer-funds.page";
+import { test, expect } from "../../src/fixtures/index";
 
-test('TC-TRANSFER_FUNDS-01: Authenticated user can access transfer funds page', { tag: ['@smoke', '@regression', '@transfer', '@critical'] }, async ({ page }) => {
-
-    const loginPage = new LoginPage(page);
-    const dashboardPage = new DashboardPage(page);
-    const transferFunds = new TransferFunds(page);
-
-    await test.step('Navigate to the login page', async () => {
-        await loginPage.navigate();
-    });
-
-    await test.step('Login with valid credentials', async () => {
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!,
-        );
-    });
-
-    await test.step('Verify user is redirected to the dashboard after successfull login', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
-    });
-
-    await test.step('Verify overview page', async () => {
-        await expect(page).toHaveURL(/overview/);
-        await expect(page).toHaveTitle(/Accounts Overview/);
-    });
+test('TC-TRANSFER_FUNDS-01: Authenticated user can access transfer funds page', { tag: ['@smoke', '@regression', '@transfer', '@critical'] }, async ({ dashboardPage, transferFundsPage }) => {
 
     await test.step('Navigate to transfer funds page', async () => {
         await dashboardPage.navigateToTransferFunds();
     });
 
     await test.step('Verify user is redirected to the transfer funds page', async () => {
-        await transferFunds.confirmPageURLContainsTransferText();
+        await transferFundsPage.confirmPageURLContainsTransferText();
     });
 
 });
 
-test('TC-TRANSFER-FUNDS-02: Authenticated user can transfer funds', { tag: ['@smoke', '@regression', '@transfer', '@critical'] }, async ({ page }) => {
-
-    const loginPage = new LoginPage(page);
-    const dashboardPage = new DashboardPage(page);
-    const transferFunds = new TransferFunds(page);
-
-    await test.step('Navigate to the login page', async () => {
-        await loginPage.navigate();
-    });
-
-    await test.step('Login with valid credentials', async () => {
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!,
-        );
-    });
-
-    await test.step('Verify user is redirected to the dashboard after successfull login', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
-    });
-
+test('TC-TRANSFER-FUNDS-02: Authenticated user can transfer funds', { tag: ['@smoke', '@regression', '@transfer', '@critical'] }, async ({ dashboardPage, transferFundsPage }) => {
 
     await test.step('Navigate to transfer funds page', async () => {
         await dashboardPage.navigateToTransferFunds();
     });
 
     await test.step('Verify user is redirected to the transfer funds page', async () => {
-        await transferFunds.confirmPageURLContainsTransferText();
+        await transferFundsPage.confirmPageURLContainsTransferText();
     });
 
     await test.step('Transfer funds', async () => {
-        await transferFunds.transferFunds('10');
+        await transferFundsPage.transferFunds('10');
     });
 
     await test.step('Funds Transfer Confirmation', async () => {
-        await transferFunds.confirmTransferCompleteHeaderText();
+        await transferFundsPage.confirmTransferCompleteHeaderText();
     });
 });
 
-test('TC-TRANSFER_FUNDS-03: Transfer funds fails with empty amount', { tag: ['@regression', '@transfer', '@negative'] }, async ({ page }) => {
-
-    const loginPage = new LoginPage(page);
-    const dashboardPage = new DashboardPage(page);
-    const transferFunds = new TransferFunds(page);
-
-    await test.step('Navigate to login page', async () => {
-
-        await loginPage.navigate();
-
-    });
-
-    await test.step('Login with valid credentials', async () => {
-
-        await loginPage.login(
-            process.env.USERNAME_VALID!,
-            process.env.PASSWORD_VALID!
-        );
-
-    });
-
-    await test.step('Verify user is redirected to the dashboard after successfull login', async () => {
-        await dashboardPage.verifyDashboardIsLoaded();
-    });
+test('TC-TRANSFER_FUNDS-03: Transfer funds fails with empty amount', { tag: ['@regression', '@transfer', '@negative'] }, async ({ dashboardPage, transferFundsPage }) => {
 
     await test.step('Navigate to transfer funds page', async () => {
 
@@ -111,16 +41,16 @@ test('TC-TRANSFER_FUNDS-03: Transfer funds fails with empty amount', { tag: ['@r
 
     await test.step('Transfer Funds: Empty amount', async () => {
 
-        await transferFunds.transferFunds('');
+        await transferFundsPage.transferFunds('');
 
     });
 
     await test.step('Verify user is redirected to the transfer funds page', async () => {
-        await transferFunds.confirmPageURLContainsTransferText();
+        await transferFundsPage.confirmPageURLContainsTransferText();
     });
 
     await test.step('Verify error message for empty amount', async () => {
-        await transferFunds.verifyErrorMessageForEmptyAmount();
+        await transferFundsPage.verifyErrorMessageForEmptyAmount();
     });
 
 });
