@@ -1,0 +1,88 @@
+name: Parabank PlayWright Automation Framework Tests
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+    schedule:
+        - cron: '0 8 * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        id: run_tests
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          USERNAME_VALID: ${{ secrets.USERNAME_VALID }}
+          PASSWORD_VALID: ${{ secrets.PASSWORD_VALID }}
+          USERNAME_INVALID: ${{ secrets.USERNAME_INVALID }}
+          PASSWORD_INVALID: ${{ secrets.PASSWORD_INVALID }}
+          USERNAME_EMPTY: ${{ secrets.USERNAME_EMPTY }}
+          PASSWORD_EMPTY: ${{ secrets.PASSWORD_EMPTY }}
+        run: npm run test:regression
+
+      - name: Generate Allure report
+        if: always()
+        run: |
+          npm install -g allure-commandline
+          allure generate allure-results --clean -o allure-report
+
+      - name: Upload Allure report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 30
+
+      - name: Send email notification
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "[${{ job.status }}] Parabank PlayWright Automation Framework Tests - ${{ github.ref_name }}"
+          body: |
+            Hi Engineering,
+
+            Here are the results for the latest Parabank PlayWright Automation Framework Test run:
+
+            Branch:     ${{ github.ref_name }}
+            Status:     ${{ job.status }}
+            Triggered:  ${{ github.event_name }}
+            Run URL:    ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Download the Allure report from the Run URL above under Artifacts.
+
+            Regards,
+            Chris - TAE
+          to: ${{ secrets.EMAIL_RECIPIENT }}
+          from: ${{ secrets.EMAIL_USERNAME }}
+
+      - name: Send WhatsApp notification
+        if: always()
+        run: |
+          curl -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=[${{ job.status }}]+Playwright+Tests+%0ABranch:+${{ github.ref_name }}+%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"

@@ -8,3 +8,5 @@ node_modules/
 /playwright/.auth/
 .env
 src/fixtures/session.json
+allure-results/
+allure-report/

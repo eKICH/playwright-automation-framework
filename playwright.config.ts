@@ -27,6 +27,11 @@ export default defineConfig({
     ['html', {open: 'never'}],
     ['line'],
     ['list'],
+    ['allure-playwright', {
+        detail: true,
+        outputFolder: 'allure-results',
+        suiteTitle: true,
+    }],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
