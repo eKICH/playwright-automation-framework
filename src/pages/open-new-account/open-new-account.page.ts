@@ -22,11 +22,6 @@ export class OpenNewAccount {
     }
 
 
-    async confirmAccountOpenedTitleIsPresentAndAccountNumberIsPresent() {
-        await expect(this.accountOpenedTitle).toBeVisible();
-        await expect(this.newAccountNumber).toHaveText(/^\d+$/);
-    }
-
     async openSavingsAccount() {
 
         const firstOption = await this.fromAccountDropDown.locator('option').first().getAttribute('value');
@@ -38,6 +33,16 @@ export class OpenNewAccount {
         await this.fromAccountDropDown.selectOption(firstOption!);
 
         await this.openNewAccountButton.click();
+    }
+
+    async confirmAccountOpenedTitleIsPresentAndAccountNumberIsPresent() {
+        await expect(this.accountOpenedTitle).toBeVisible();
+        await expect(this.newAccountNumber).toHaveText(/^\d+$/);
+    }
+
+    async confirmURLContainsOpenAccountAndTitle() {
+        await expect(this.page).toHaveURL(/openaccount/);
+        await expect(this.page).toHaveTitle(/Open Account/);
     }
 
 

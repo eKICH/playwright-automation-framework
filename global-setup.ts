@@ -14,7 +14,7 @@ async function globalSetup() {
     await page.locator('[name="password"]').fill(process.env.PASSWORD_VALID!);
     await page.getByRole('button', { name: 'Log In' }).click();
 
-    await page.waitForURL('**/overview.htm**');
+    await page.waitForURL(/overview/);
 
     await context.storageState({ path: 'src/fixtures/session.json' });
 
