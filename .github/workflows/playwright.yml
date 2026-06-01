@@ -86,13 +86,11 @@ jobs:
 
           TOTAL=$((PASSED + FAILED + BROKEN))
 
-          # HTML summary for email
           echo "passed=$PASSED" >> $GITHUB_OUTPUT
           echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          echo "broken=$BROKEN" >> $GITHUB_OUTPUT
           echo "message=$MESSAGE" >> $GITHUB_OUTPUT
           echo "whatsapp_message=$WHATSAPP_MESSAGE" >> $GITHUB_OUTPUT
-
-          # Plain text URL-safe summary for WhatsApp - no pipes, emojis or special chars
           echo "whatsapp_summary=Total:+$TOTAL+Passed:+$PASSED+Failed:+$FAILED" >> $GITHUB_OUTPUT
 
       - name: Send email notification
@@ -105,23 +103,91 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "[${{ job.status }}] Parabank PlayWright Automation Framework Tests - ${{ github.ref_name }}"
           html_body: |
-            <p>Hi Engineering,</p>
-            <p>Here are the results for the latest Parabank PlayWright Automation Framework Test run:</p>
-            <table>
-              <tr><td><b>Branch</b></td><td>${{ github.ref_name }}</td></tr>
-              <tr><td><b>Status</b></td><td>${{ job.status }}</td></tr>
-              <tr><td><b>Triggered</b></td><td>${{ github.event_name }}</td></tr>
-              <tr><td><b>Passed</b></td><td>${{ steps.results.outputs.passed }}</td></tr>
-              <tr><td><b>Failed</b></td><td>${{ steps.results.outputs.failed }}</td></tr>
-            </table>
-            <br>
-            <b>Test Results:</b>
-            <pre>${{ steps.results.outputs.message }}</pre>
-            <br>
-            <p><b>Run URL:</b> <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">View Run</a></p>
-            <p>Download the Allure report from the Run URL above under Artifacts.</p>
-            <br>
-            <p>Regards,<br>Chris - TAE</p>
+            <html>
+            <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+              <div style="max-width: 700px; margin: auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+                <!-- Header -->
+                <div style="background-color: #1a1a2e; padding: 24px 32px;">
+                  <h1 style="color: #ffffff; margin: 0; font-size: 20px;">🎭 Parabank Playwright Automation</h1>
+                  <p style="color: #a0a0b0; margin: 6px 0 0 0; font-size: 14px;">Test Execution Report</p>
+                </div>
+
+                <!-- Status Banner -->
+                <div style="background-color: ${{ job.status == 'success' && '#27ae60' || '#e74c3c' }}; padding: 12px 32px;">
+                  <p style="color: #ffffff; margin: 0; font-size: 16px; font-weight: bold;">
+                    ${{ job.status == 'success' && '✅ All Tests Passed' || '❌ Some Tests Failed' }}
+                  </p>
+                </div>
+
+                <!-- Run Details -->
+                <div style="padding: 24px 32px;">
+                  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <tr style="border-bottom: 1px solid #eeeeee;">
+                      <td style="padding: 10px 0; color: #666666; width: 140px;">Branch</td>
+                      <td style="padding: 10px 0; font-weight: bold;">${{ github.ref_name }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eeeeee;">
+                      <td style="padding: 10px 0; color: #666666;">Status</td>
+                      <td style="padding: 10px 0; font-weight: bold;">${{ job.status }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eeeeee;">
+                      <td style="padding: 10px 0; color: #666666;">Triggered By</td>
+                      <td style="padding: 10px 0; font-weight: bold;">${{ github.event_name }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #eeeeee;">
+                      <td style="padding: 10px 0; color: #666666;">Actor</td>
+                      <td style="padding: 10px 0; font-weight: bold;">${{ github.actor }}</td>
+                    </tr>
+                  </table>
+                </div>
+
+                <!-- Summary Cards -->
+                <div style="padding: 0 32px 24px 32px;">
+                  <table style="width: 100%; border-collapse: collapse; text-align: center;">
+                    <tr>
+                      <td style="background-color: #eafaf1; border-radius: 8px; padding: 16px; width: 33%;">
+                        <p style="margin: 0; font-size: 28px; font-weight: bold; color: #27ae60;">${{ steps.results.outputs.passed }}</p>
+                        <p style="margin: 4px 0 0 0; font-size: 13px; color: #666666;">Passed</p>
+                      </td>
+                      <td style="width: 16px;"></td>
+                      <td style="background-color: #fdf2f2; border-radius: 8px; padding: 16px; width: 33%;">
+                        <p style="margin: 0; font-size: 28px; font-weight: bold; color: #e74c3c;">${{ steps.results.outputs.failed }}</p>
+                        <p style="margin: 4px 0 0 0; font-size: 13px; color: #666666;">Failed</p>
+                      </td>
+                      <td style="width: 16px;"></td>
+                      <td style="background-color: #fef9e7; border-radius: 8px; padding: 16px; width: 33%;">
+                        <p style="margin: 0; font-size: 28px; font-weight: bold; color: #f39c12;">${{ steps.results.outputs.broken }}</p>
+                        <p style="margin: 4px 0 0 0; font-size: 13px; color: #666666;">Broken</p>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <!-- Test Results -->
+                <div style="padding: 0 32px 24px 32px;">
+                  <h3 style="font-size: 15px; color: #1a1a2e; margin: 0 0 12px 0; border-bottom: 2px solid #1a1a2e; padding-bottom: 8px;">Test Results</h3>
+                  <div style="font-size: 13px; line-height: 2; color: #333333;">
+                    ${{ steps.results.outputs.message }}
+                  </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div style="padding: 0 32px 32px 32px; text-align: center;">
+                  <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                     style="background-color: #1a1a2e; color: #ffffff; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold;">
+                    View Run & Download Report
+                  </a>
+                </div>
+
+                <!-- Footer -->
+                <div style="background-color: #f4f4f4; padding: 16px 32px; text-align: center;">
+                  <p style="margin: 0; font-size: 12px; color: #999999;">Sent by GitHub Actions · Chris - TAE</p>
+                </div>
+
+              </div>
+            </body>
+            </html>
           to: ${{ secrets.EMAIL_RECIPIENT }}
           from: ${{ secrets.EMAIL_USERNAME }}
 
