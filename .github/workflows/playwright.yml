@@ -85,4 +85,4 @@ jobs:
       - name: Send WhatsApp notification
         if: always()
         run: |
-          curl -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=[${{ job.status }}]+Playwright+Tests+%0ABranch:+${{ github.ref_name }}+%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
+          curl -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=%5B${{ job.status }}%5D+Playwright+Tests+%0ABranch:+${{ github.ref_name }}+%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
