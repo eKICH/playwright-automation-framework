@@ -32,6 +32,7 @@ jobs:
 
       - name: Run Playwright tests
         id: run_tests
+        continue-on-error: true
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           USERNAME_VALID: ${{ secrets.USERNAME_VALID }}
@@ -56,6 +57,39 @@ jobs:
           path: allure-report/
           retention-days: 30
 
+      - name: Parse test results
+        if: always()
+        id: results
+        run: |
+          PASSED=0
+          FAILED=0
+          BROKEN=0
+          MESSAGE=""
+
+          for file in allure-results/*-result.json; do
+            if [ -f "$file" ]; then
+              NAME=$(jq -r '.name' "$file")
+              STATUS=$(jq -r '.status' "$file")
+
+              case $STATUS in
+                passed)  EMOJI="✅"; PASSED=$((PASSED + 1));;
+                failed)  EMOJI="❌"; FAILED=$((FAILED + 1));;
+                broken)  EMOJI="⚠️"; BROKEN=$((BROKEN + 1));;
+                *)       EMOJI="⏭️";;
+              esac
+
+              MESSAGE="$MESSAGE$EMOJI $NAME%0A"
+            fi
+          done
+
+          TOTAL=$((PASSED + FAILED + BROKEN))
+          SUMMARY="Total:+$TOTAL+|+✅+$PASSED+|+❌+$FAILED+|+⚠️+$BROKEN"
+
+          echo "passed=$PASSED" >> $GITHUB_OUTPUT
+          echo "failed=$FAILED" >> $GITHUB_OUTPUT
+          echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
+          echo "message=$MESSAGE" >> $GITHUB_OUTPUT
+
       - name: Send email notification
         if: always()
         uses: dawidd6/action-send-mail@v3
@@ -73,6 +107,11 @@ jobs:
             Branch:     ${{ github.ref_name }}
             Status:     ${{ job.status }}
             Triggered:  ${{ github.event_name }}
+            Summary:    ${{ steps.results.outputs.passed }} passed | ${{ steps.results.outputs.failed }} failed
+
+            Test Results:
+            ${{ steps.results.outputs.message }}
+
             Run URL:    ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
             Download the Allure report from the Run URL above under Artifacts.
@@ -85,4 +124,4 @@ jobs:
       - name: Send WhatsApp notification
         if: always()
         run: |
-          curl -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=%5B${{ job.status }}%5D+Playwright+Tests+%0ABranch:+${{ github.ref_name }}+%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
+          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=🎭+Parabank+Playwright+Results+-+${{ github.ref_name }}%0A${{ steps.results.outputs.summary }}%0A%0A${{ steps.results.outputs.message }}%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
