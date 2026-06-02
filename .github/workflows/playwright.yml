@@ -100,6 +100,21 @@ jobs:
           TOTAL=$((PASSED + FAILED + BROKEN))
           REPORT_URL="https://ekich.github.io/playwright-automation-framework/reports/${{ github.run_id }}"
 
+          # Determine status colour and label based on results
+          if [ "$FAILED" -gt 0 ] && [ "$BROKEN" -gt 0 ]; then
+            STATUS_COLOR="#e74c3c"
+            STATUS_LABEL="❌ Some Tests Failed and Broken"
+          elif [ "$FAILED" -gt 0 ]; then
+            STATUS_COLOR="#e74c3c"
+            STATUS_LABEL="❌ Some Tests Failed"
+          elif [ "$BROKEN" -gt 0 ]; then
+            STATUS_COLOR="#f39c12"
+            STATUS_LABEL="⚠️ Some Tests Broken"
+          else
+            STATUS_COLOR="#27ae60"
+            STATUS_LABEL="✅ All Tests Passed"
+          fi
+
           echo "passed=$PASSED" >> $GITHUB_OUTPUT
           echo "failed=$FAILED" >> $GITHUB_OUTPUT
           echo "broken=$BROKEN" >> $GITHUB_OUTPUT
@@ -107,6 +122,8 @@ jobs:
           echo "whatsapp_message=$WHATSAPP_MESSAGE" >> $GITHUB_OUTPUT
           echo "whatsapp_summary=Total:+$TOTAL+Passed:+$PASSED+Failed:+$FAILED" >> $GITHUB_OUTPUT
           echo "report_url=$REPORT_URL" >> $GITHUB_OUTPUT
+          echo "status_color=$STATUS_COLOR" >> $GITHUB_OUTPUT
+          echo "status_label=$STATUS_LABEL" >> $GITHUB_OUTPUT
 
       - name: Send email notification
         if: always()
@@ -129,9 +146,9 @@ jobs:
                 </div>
 
                 <!-- Status Banner -->
-                <div style="background-color: ${{ job.status == 'success' && '#27ae60' || '#e74c3c' }}; padding: 12px 32px;">
+                <div style="background-color: ${{ steps.results.outputs.status_color }}; padding: 12px 32px;">
                   <p style="color: #ffffff; margin: 0; font-size: 16px; font-weight: bold;">
-                    ${{ job.status == 'success' && '✅ All Tests Passed' || '❌ Some Tests Failed' }}
+                    ${{ steps.results.outputs.status_label }}
                   </p>
                 </div>
 
