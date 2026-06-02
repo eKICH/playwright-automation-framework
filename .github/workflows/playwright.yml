@@ -14,6 +14,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -57,6 +62,14 @@ jobs:
           path: allure-report/
           retention-days: 30
 
+      - name: Deploy Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: allure-report
+          destination_dir: reports/${{ github.run_id }}
+
       - name: Parse test results
         if: always()
         id: results
@@ -85,6 +98,7 @@ jobs:
           done
 
           TOTAL=$((PASSED + FAILED + BROKEN))
+          REPORT_URL="https://eKICH.github.io/playwright-automation-framework/reports/${{ github.run_id }}"
 
           echo "passed=$PASSED" >> $GITHUB_OUTPUT
           echo "failed=$FAILED" >> $GITHUB_OUTPUT
@@ -92,6 +106,7 @@ jobs:
           echo "message=$MESSAGE" >> $GITHUB_OUTPUT
           echo "whatsapp_message=$WHATSAPP_MESSAGE" >> $GITHUB_OUTPUT
           echo "whatsapp_summary=Total:+$TOTAL+Passed:+$PASSED+Failed:+$FAILED" >> $GITHUB_OUTPUT
+          echo "report_url=$REPORT_URL" >> $GITHUB_OUTPUT
 
       - name: Send email notification
         if: always()
@@ -172,17 +187,21 @@ jobs:
                   </div>
                 </div>
 
-                <!-- CTA Button -->
+                <!-- CTA Buttons -->
                 <div style="padding: 0 32px 32px 32px; text-align: center;">
                   <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                     style="background-color: #1a1a2e; color: #ffffff; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold;">
-                    View Run & Download Report
+                     style="background-color: #1a1a2e; color: #ffffff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold; margin-right: 12px;">
+                    View Run
+                  </a>
+                  <a href="https://eKICH.github.io/playwright-automation-framework/reports/${{ github.run_id }}"
+                     style="background-color: #27ae60; color: #ffffff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold;">
+                    View Allure Report
                   </a>
                 </div>
 
                 <!-- Footer -->
                 <div style="background-color: #f4f4f4; padding: 16px 32px; text-align: center;">
-                  <p style="margin: 0; font-size: 12px; color: #999999;">Sent by GitHub Actions · Chris - TAE</p>
+                  <p style="margin: 0; font-size: 12px; color: #999999;">Sent by: Chris - TAE</p>
                 </div>
 
               </div>
@@ -194,4 +213,4 @@ jobs:
       - name: Send WhatsApp notification
         if: always()
         run: |
-          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=Parabank+Playwright+Results%0ABranch:+${{ github.ref_name }}%0AStatus:+${{ job.status }}%0A${{ steps.results.outputs.whatsapp_summary }}%0ASee+email+for+full+details.%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
+          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=Parabank+Playwright+Results%0ABranch:+${{ github.ref_name }}%0AStatus:+${{ job.status }}%0A${{ steps.results.outputs.whatsapp_summary }}%0AReport:+https://eKICH.github.io/playwright-automation-framework/reports/${{ github.run_id }}%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
