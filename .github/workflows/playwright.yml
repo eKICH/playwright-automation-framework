@@ -98,7 +98,7 @@ jobs:
           done
 
           TOTAL=$((PASSED + FAILED + BROKEN))
-          REPORT_URL="https://eKICH.github.io/playwright-automation-framework/reports/${{ github.run_id }}"
+          REPORT_URL="https://ekich.github.io/playwright-automation-framework/reports/${{ github.run_id }}"
 
           echo "passed=$PASSED" >> $GITHUB_OUTPUT
           echo "failed=$FAILED" >> $GITHUB_OUTPUT
@@ -193,7 +193,7 @@ jobs:
                      style="background-color: #1a1a2e; color: #ffffff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold; margin-right: 12px;">
                     View Run
                   </a>
-                  <a href="https://eKICH.github.io/playwright-automation-framework/reports/${{ github.run_id }}"
+                  <a href="https://ekich.github.io/playwright-automation-framework/reports/${{ github.run_id }}"
                      style="background-color: #27ae60; color: #ffffff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold;">
                     View Allure Report
                   </a>
@@ -213,4 +213,4 @@ jobs:
       - name: Send WhatsApp notification
         if: always()
         run: |
-          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=Parabank+Playwright+Results%0ABranch:+${{ github.ref_name }}%0AStatus:+${{ job.status }}%0A${{ steps.results.outputs.whatsapp_summary }}%0AReport:+https://eKICH.github.io/playwright-automation-framework/reports/${{ github.run_id }}%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
+          curl --globoff -s "https://api.callmebot.com/whatsapp.php?phone=${{ secrets.WHATSAPP_PHONE }}&text=Parabank+Playwright+Results%0ABranch:+${{ github.ref_name }}%0AStatus:+${{ job.status }}%0A${{ steps.results.outputs.whatsapp_summary }}%0AReport:+https://ekich.github.io/playwright-automation-framework/reports/${{ github.run_id }}%0ARun:+${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}&apikey=${{ secrets.WHATSAPP_API_KEY }}"
