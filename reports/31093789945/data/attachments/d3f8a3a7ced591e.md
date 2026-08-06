@@ -1,0 +1,325 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: login/login.spec.ts >> TC-LOGIN-04: Invalid username + password
+- Location: tests/login/login.spec.ts:96:5
+
+# Error details
+
+```
+Error: expect(locator).toHaveText(expected) failed
+
+Locator: locator('.error')
+Timeout: 5000ms
+- Expected  - 1
++ Received  + 3
+
+- The username and password could not be verified.
++
++ 			An internal error has occurred and has been logged.
++ 		
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for locator('.error')
+    14 × locator resolved to <p class="error">↵⇆⇆⇆An internal error has occurred and has been l…</p>
+       - unexpected value "
+			An internal error has occurred and has been logged.
+		"
+
+```
+
+```yaml
+- link:
+  - /url: admin.htm
+  - img
+- link "ParaBank":
+  - /url: index.htm
+  - img "ParaBank"
+- paragraph: Experience the difference
+- list:
+  - listitem: Solutions
+  - listitem:
+    - link "About Us":
+      - /url: about.htm
+  - listitem:
+    - link "Services":
+      - /url: services.htm
+  - listitem:
+    - link "Products":
+      - /url: http://www.parasoft.com/jsp/products.jsp
+  - listitem:
+    - link "Locations":
+      - /url: http://www.parasoft.com/jsp/pr/contacts.jsp
+  - listitem:
+    - link "Admin Page":
+      - /url: admin.htm
+- list:
+  - listitem:
+    - link "home":
+      - /url: index.htm
+  - listitem:
+    - link "about":
+      - /url: about.htm
+  - listitem:
+    - link "contact":
+      - /url: contact.htm
+- paragraph: Welcome John Smith
+- heading "Account Services" [level=2]
+- list:
+  - listitem:
+    - link "Open New Account":
+      - /url: openaccount.htm
+  - listitem:
+    - link "Accounts Overview":
+      - /url: overview.htm
+  - listitem:
+    - link "Transfer Funds":
+      - /url: transfer.htm
+  - listitem:
+    - link "Bill Pay":
+      - /url: billpay.htm
+  - listitem:
+    - link "Find Transactions":
+      - /url: findtrans.htm
+  - listitem:
+    - link "Update Contact Info":
+      - /url: updateprofile.htm
+  - listitem:
+    - link "Request Loan":
+      - /url: requestloan.htm
+  - listitem:
+    - link "Log Out":
+      - /url: logout.htm
+- heading "Accounts Overview" [level=1]
+- table:
+  - rowgroup:
+    - row "Account Balance* Available Amount":
+      - columnheader "Account"
+      - columnheader "Balance*"
+      - columnheader "Available Amount"
+  - rowgroup:
+    - row "12345 -$3680.00 $0.00":
+      - cell "12345":
+        - link "12345":
+          - /url: activity.htm?id=12345
+      - cell "-$3680.00"
+      - cell "$0.00"
+    - row "12456 $10.45 $10.45":
+      - cell "12456":
+        - link "12456":
+          - /url: activity.htm?id=12456
+      - cell "$10.45"
+      - cell "$10.45"
+    - row "12567 $100.00 $100.00":
+      - cell "12567":
+        - link "12567":
+          - /url: activity.htm?id=12567
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "12678 -$100.00 $0.00":
+      - cell "12678":
+        - link "12678":
+          - /url: activity.htm?id=12678
+      - cell "-$100.00"
+      - cell "$0.00"
+    - row "12789 $100.00 $100.00":
+      - cell "12789":
+        - link "12789":
+          - /url: activity.htm?id=12789
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "12900 $0.00 $0.00":
+      - cell "12900":
+        - link "12900":
+          - /url: activity.htm?id=12900
+      - cell "$0.00"
+      - cell "$0.00"
+    - row "13011 $100.00 $100.00":
+      - cell "13011":
+        - link "13011":
+          - /url: activity.htm?id=13011
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "13122 $1100.00 $1100.00":
+      - cell "13122":
+        - link "13122":
+          - /url: activity.htm?id=13122
+      - cell "$1100.00"
+      - cell "$1100.00"
+    - row "13233 $100.00 $100.00":
+      - cell "13233":
+        - link "13233":
+          - /url: activity.htm?id=13233
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "13344 $1131.10 $1131.10":
+      - cell "13344":
+        - link "13344":
+          - /url: activity.htm?id=13344
+      - cell "$1131.10"
+      - cell "$1131.10"
+    - row "13566 $100.00 $100.00":
+      - cell "13566":
+        - link "13566":
+          - /url: activity.htm?id=13566
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "13677 $100.00 $100.00":
+      - cell "13677":
+        - link "13677":
+          - /url: activity.htm?id=13677
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "13788 $100.00 $100.00":
+      - cell "13788":
+        - link "13788":
+          - /url: activity.htm?id=13788
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "13899 $100.00 $100.00":
+      - cell "13899":
+        - link "13899":
+          - /url: activity.htm?id=13899
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "14121 $100.00 $100.00":
+      - cell "14121":
+        - link "14121":
+          - /url: activity.htm?id=14121
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "14232 $200.00 $200.00":
+      - cell "14232":
+        - link "14232":
+          - /url: activity.htm?id=14232
+      - cell "$200.00"
+      - cell "$200.00"
+    - row "14343 $500.00 $500.00":
+      - cell "14343":
+        - link "14343":
+          - /url: activity.htm?id=14343
+      - cell "$500.00"
+      - cell "$500.00"
+    - row "14454 $400.00 $400.00":
+      - cell "14454":
+        - link "14454":
+          - /url: activity.htm?id=14454
+      - cell "$400.00"
+      - cell "$400.00"
+    - row "17784 $100.00 $100.00":
+      - cell "17784":
+        - link "17784":
+          - /url: activity.htm?id=17784
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "20448 $100.00 $100.00":
+      - cell "20448":
+        - link "20448":
+          - /url: activity.htm?id=20448
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "20670 $100.00 $100.00":
+      - cell "20670":
+        - link "20670":
+          - /url: activity.htm?id=20670
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "54321 $1351.12 $1351.12":
+      - cell "54321":
+        - link "54321":
+          - /url: activity.htm?id=54321
+      - cell "$1351.12"
+      - cell "$1351.12"
+    - row "Total $2112.67":
+      - cell "Total"
+      - cell "$2112.67"
+      - cell
+  - rowgroup:
+    - row "*Balance includes deposits that may be subject to holds":
+      - cell "*Balance includes deposits that may be subject to holds"
+- list:
+  - listitem:
+    - link "Home":
+      - /url: index.htm
+    - text: "|"
+  - listitem:
+    - link "About Us":
+      - /url: about.htm
+    - text: "|"
+  - listitem:
+    - link "Services":
+      - /url: services.htm
+    - text: "|"
+  - listitem:
+    - link "Products":
+      - /url: http://www.parasoft.com/jsp/products.jsp
+    - text: "|"
+  - listitem:
+    - link "Locations":
+      - /url: http://www.parasoft.com/jsp/pr/contacts.jsp
+    - text: "|"
+  - listitem:
+    - link "Forum":
+      - /url: http://forums.parasoft.com/
+    - text: "|"
+  - listitem:
+    - link "Site Map":
+      - /url: sitemap.htm
+    - text: "|"
+  - listitem:
+    - link "Contact Us":
+      - /url: contact.htm
+- paragraph: © Parasoft. All rights reserved.
+- list:
+  - listitem: "Visit us at:"
+  - listitem:
+    - link "www.parasoft.com":
+      - /url: http://www.parasoft.com/
+```
+
+# Test source
+
+```ts
+  1  | import { expect, Locator, Page } from "@playwright/test";
+  2  | 
+  3  | export class LoginPage {
+  4  | 
+  5  |     protected readonly page: Page;
+  6  |     protected readonly usernameInput: Locator;
+  7  |     protected readonly passwordInput: Locator;
+  8  |     protected readonly loginButton: Locator;
+  9  |     protected readonly loginValidation: Locator;
+  10 | 
+  11 |     constructor(page: Page) {
+  12 | 
+  13 |         this.page = page;
+  14 | 
+  15 |         this.usernameInput = page.locator('[name="username"]');
+  16 |         this.passwordInput = page.locator('[name="password"]');
+  17 |         this.loginButton = page.getByRole('button', { name: 'Log In' });
+  18 |         this.loginValidation = page.locator('.error')
+  19 |     }
+  20 | 
+  21 |     async verifyLoginButtonIsVisible() {
+  22 |         await expect(this.loginButton).toBeVisible();
+  23 |     }
+  24 | 
+  25 |     async login(username: string, password: string) {
+  26 | 
+  27 |         await this.usernameInput.fill(username);
+  28 |         await this.passwordInput.fill(password);
+  29 |         await this.loginButton.click();
+  30 |     }
+  31 | 
+  32 |     async validateInvalidUserNameOrAndPassword(){
+> 33 |         await expect(this.loginValidation).toHaveText('The username and password could not be verified.');
+     |                                            ^ Error: expect(locator).toHaveText(expected) failed
+  34 |     }
+  35 | }
+```
