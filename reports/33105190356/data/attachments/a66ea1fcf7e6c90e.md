@@ -1,0 +1,349 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: login/login.spec.ts >> TC-LOGIN-02: Invalid username
+- Location: tests/login/login.spec.ts:44:5
+
+# Error details
+
+```
+Error: expect(locator).toHaveText(expected) failed
+
+Locator: locator('.error')
+Timeout: 5000ms
+- Expected  - 1
++ Received  + 3
+
+- The username and password could not be verified.
++
++ 			An internal error has occurred and has been logged.
++ 		
+
+Call log:
+  - Expect "toHaveText" with timeout 5000ms
+  - waiting for locator('.error')
+    13 × locator resolved to <p class="error">↵⇆⇆⇆An internal error has occurred and has been l…</p>
+       - unexpected value "
+			An internal error has occurred and has been logged.
+		"
+
+```
+
+```yaml
+- link:
+  - /url: admin.htm
+  - img
+- link "ParaBank":
+  - /url: index.htm
+  - img "ParaBank"
+- paragraph: Experience the difference
+- list:
+  - listitem: Solutions
+  - listitem:
+    - link "About Us":
+      - /url: about.htm
+  - listitem:
+    - link "Services":
+      - /url: services.htm
+  - listitem:
+    - link "Products":
+      - /url: http://www.parasoft.com/jsp/products.jsp
+  - listitem:
+    - link "Locations":
+      - /url: http://www.parasoft.com/jsp/pr/contacts.jsp
+  - listitem:
+    - link "Admin Page":
+      - /url: admin.htm
+- list:
+  - listitem:
+    - link "home":
+      - /url: index.htm
+  - listitem:
+    - link "about":
+      - /url: about.htm
+  - listitem:
+    - link "contact":
+      - /url: contact.htm
+- paragraph: Welcome John Smith
+- heading "Account Services" [level=2]
+- list:
+  - listitem:
+    - link "Open New Account":
+      - /url: openaccount.htm
+  - listitem:
+    - link "Accounts Overview":
+      - /url: overview.htm
+  - listitem:
+    - link "Transfer Funds":
+      - /url: transfer.htm
+  - listitem:
+    - link "Bill Pay":
+      - /url: billpay.htm
+  - listitem:
+    - link "Find Transactions":
+      - /url: findtrans.htm
+  - listitem:
+    - link "Update Contact Info":
+      - /url: updateprofile.htm
+  - listitem:
+    - link "Request Loan":
+      - /url: requestloan.htm
+  - listitem:
+    - link "Log Out":
+      - /url: logout.htm
+- heading "Accounts Overview" [level=1]
+- table:
+  - rowgroup:
+    - row "Account Balance* Available Amount":
+      - columnheader "Account"
+      - columnheader "Balance*"
+      - columnheader "Available Amount"
+  - rowgroup:
+    - row "12345 -$15143.50 $0.00":
+      - cell "12345":
+        - link "12345":
+          - /url: activity.htm?id=12345
+      - cell "-$15143.50"
+      - cell "$0.00"
+    - row "12456 $3433.95 $3433.95":
+      - cell "12456":
+        - link "12456":
+          - /url: activity.htm?id=12456
+      - cell "$3433.95"
+      - cell "$3433.95"
+    - row "12567 -$15.00 $0.00":
+      - cell "12567":
+        - link "12567":
+          - /url: activity.htm?id=12567
+      - cell "-$15.00"
+      - cell "$0.00"
+    - row "12678 $7800.00 $7800.00":
+      - cell "12678":
+        - link "12678":
+          - /url: activity.htm?id=12678
+      - cell "$7800.00"
+      - cell "$7800.00"
+    - row "12789 -$162.00 $0.00":
+      - cell "12789":
+        - link "12789":
+          - /url: activity.htm?id=12789
+      - cell "-$162.00"
+      - cell "$0.00"
+    - row "12900 -$10.00 $0.00":
+      - cell "12900":
+        - link "12900":
+          - /url: activity.htm?id=12900
+      - cell "-$10.00"
+      - cell "$0.00"
+    - row "13011 $90.00 $90.00":
+      - cell "13011":
+        - link "13011":
+          - /url: activity.htm?id=13011
+      - cell "$90.00"
+      - cell "$90.00"
+    - row "13122 $1090.00 $1090.00":
+      - cell "13122":
+        - link "13122":
+          - /url: activity.htm?id=13122
+      - cell "$1090.00"
+      - cell "$1090.00"
+    - row "13233 $90.00 $90.00":
+      - cell "13233":
+        - link "13233":
+          - /url: activity.htm?id=13233
+      - cell "$90.00"
+      - cell "$90.00"
+    - row "13344 $1221.10 $1221.10":
+      - cell "13344":
+        - link "13344":
+          - /url: activity.htm?id=13344
+      - cell "$1221.10"
+      - cell "$1221.10"
+    - row "15453 $90.00 $90.00":
+      - cell "15453":
+        - link "15453":
+          - /url: activity.htm?id=15453
+      - cell "$90.00"
+      - cell "$90.00"
+    - row "54321 $1341.12 $1341.12":
+      - cell "54321":
+        - link "54321":
+          - /url: activity.htm?id=54321
+      - cell "$1341.12"
+      - cell "$1341.12"
+    - row "56856 $25.00 $25.00":
+      - cell "56856":
+        - link "56856":
+          - /url: activity.htm?id=56856
+      - cell "$25.00"
+      - cell "$25.00"
+    - row "58854 $100.00 $100.00":
+      - cell "58854":
+        - link "58854":
+          - /url: activity.htm?id=58854
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "64071 $100.00 $100.00":
+      - cell "64071":
+        - link "64071":
+          - /url: activity.htm?id=64071
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "65958 $100.00 $100.00":
+      - cell "65958":
+        - link "65958":
+          - /url: activity.htm?id=65958
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "67956 $100.00 $100.00":
+      - cell "67956":
+        - link "67956":
+          - /url: activity.htm?id=67956
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "69621 $100.00 $100.00":
+      - cell "69621":
+        - link "69621":
+          - /url: activity.htm?id=69621
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "70731 $100.00 $100.00":
+      - cell "70731":
+        - link "70731":
+          - /url: activity.htm?id=70731
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "71064 $100.00 $100.00":
+      - cell "71064":
+        - link "71064":
+          - /url: activity.htm?id=71064
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "80166 $100.00 $100.00":
+      - cell "80166":
+        - link "80166":
+          - /url: activity.htm?id=80166
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "81165 $100.00 $100.00":
+      - cell "81165":
+        - link "81165":
+          - /url: activity.htm?id=81165
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "88713 $100.00 $100.00":
+      - cell "88713":
+        - link "88713":
+          - /url: activity.htm?id=88713
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "88824 $100.00 $100.00":
+      - cell "88824":
+        - link "88824":
+          - /url: activity.htm?id=88824
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "92709 $100.00 $100.00":
+      - cell "92709":
+        - link "92709":
+          - /url: activity.htm?id=92709
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "93819 $100.00 $100.00":
+      - cell "93819":
+        - link "93819":
+          - /url: activity.htm?id=93819
+      - cell "$100.00"
+      - cell "$100.00"
+    - row "Total $1150.67":
+      - cell "Total"
+      - cell "$1150.67"
+      - cell
+  - rowgroup:
+    - row "*Balance includes deposits that may be subject to holds":
+      - cell "*Balance includes deposits that may be subject to holds"
+- list:
+  - listitem:
+    - link "Home":
+      - /url: index.htm
+    - text: "|"
+  - listitem:
+    - link "About Us":
+      - /url: about.htm
+    - text: "|"
+  - listitem:
+    - link "Services":
+      - /url: services.htm
+    - text: "|"
+  - listitem:
+    - link "Products":
+      - /url: http://www.parasoft.com/jsp/products.jsp
+    - text: "|"
+  - listitem:
+    - link "Locations":
+      - /url: http://www.parasoft.com/jsp/pr/contacts.jsp
+    - text: "|"
+  - listitem:
+    - link "Forum":
+      - /url: http://forums.parasoft.com/
+    - text: "|"
+  - listitem:
+    - link "Site Map":
+      - /url: sitemap.htm
+    - text: "|"
+  - listitem:
+    - link "Contact Us":
+      - /url: contact.htm
+- paragraph: © Parasoft. All rights reserved.
+- list:
+  - listitem: "Visit us at:"
+  - listitem:
+    - link "www.parasoft.com":
+      - /url: http://www.parasoft.com/
+```
+
+# Test source
+
+```ts
+  1  | import { expect, Locator, Page } from "@playwright/test";
+  2  | 
+  3  | export class LoginPage {
+  4  | 
+  5  |     protected readonly page: Page;
+  6  |     protected readonly usernameInput: Locator;
+  7  |     protected readonly passwordInput: Locator;
+  8  |     protected readonly loginButton: Locator;
+  9  |     protected readonly loginValidation: Locator;
+  10 | 
+  11 |     constructor(page: Page) {
+  12 | 
+  13 |         this.page = page;
+  14 | 
+  15 |         this.usernameInput = page.locator('[name="username"]');
+  16 |         this.passwordInput = page.locator('[name="password"]');
+  17 |         this.loginButton = page.getByRole('button', { name: 'Log In' });
+  18 |         this.loginValidation = page.locator('.error')
+  19 |     }
+  20 | 
+  21 |     async verifyLoginButtonIsVisible() {
+  22 |         await expect(this.loginButton).toBeVisible();
+  23 |     }
+  24 | 
+  25 |     async login(username: string, password: string) {
+  26 | 
+  27 |         await this.usernameInput.fill(username);
+  28 |         await this.passwordInput.fill(password);
+  29 |         await this.loginButton.click();
+  30 |     }
+  31 | 
+  32 |     async validateInvalidUserNameOrAndPassword(){
+> 33 |         await expect(this.loginValidation).toHaveText('The username and password could not be verified.');
+     |                                            ^ Error: expect(locator).toHaveText(expected) failed
+  34 |     }
+  35 | }
+```
