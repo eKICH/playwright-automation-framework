@@ -32,6 +32,7 @@ export default defineConfig({
         outputFolder: 'allure-results',
         suiteTitle: true,
     }],
+    ['@testify-comp/playwright-reporter']
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -44,7 +45,7 @@ export default defineConfig({
     headless: !!process.env.CI,
     trace: 'on',
     screenshot: 'on',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */
